@@ -1,5 +1,6 @@
+import { HttpResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { empty } from 'rxjs'
+import { IGist, NotesService } from '../notes-service/notes.service';
 import { INotes, Notes } from './notes.model';
 
 
@@ -10,25 +11,23 @@ import { INotes, Notes } from './notes.model';
 })
 export class ListNotesComponent implements OnInit {
   notes?: INotes[];
-  data?: any;
-  constructor() {
-
-  }
+  constructor(protected notesService: NotesService) { }
 
   dummy() {
-    return [new Notes(1, 'one'), new Notes(2, 'two'), new Notes(3, 'three'), new Notes(4, 'four')];
-    //return [];
-
+    this.notesService.loadGist().subscribe({
+      next: (res: HttpResponse<IGist[]>) => {
+        this.notes = res.body?.map(gist => new Notes(gist.id, gist.url)) ?? [];
+      },
+      error: () => {
+        console.log("error")
+      },
+    });
   }
 
   ngOnInit(): void {
-    this.notes = this.dummy();
-
-    // console.log(this.datas);
-    this.notes?.forEach((eachElement, i) => {
-      console.log(eachElement.content, i);
-    });
+    this.dummy();
   }
+
 }
 
 

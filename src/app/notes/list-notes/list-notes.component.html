@@ -1,11 +1,13 @@
 <p>list-notes works!</p>
 
-<div *ngFor="let note of notes">
-    {{note.content}}
-</div>
-
 <div>
     there are {{notes?.length}} notes found
 </div>
+
+<div *ngFor="let note of notes">
+    {{note.id}} | {{note.content}}
+</div>
+
+
 
 <a [routerLink]="['add']">Add Notes</a>
