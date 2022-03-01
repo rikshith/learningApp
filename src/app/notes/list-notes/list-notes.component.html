@@ -5,9 +5,7 @@
 </div>
 
 <div *ngFor="let note of notes">
-    {{note.id}} | {{note.content}}
+    <a routerLink="view/{{note.id}}" (click)="saveData(note)">{{note.id}} | {{note.content}}</a>
 </div>
-
-
 
 <a [routerLink]="['add']">Add Notes</a>

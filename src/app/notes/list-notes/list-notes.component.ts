@@ -11,11 +11,13 @@ import { INotes, Notes } from './notes.model';
 })
 export class ListNotesComponent implements OnInit {
   notes?: INotes[];
+  gistData?: IGist[];
   constructor(protected notesService: NotesService) { }
 
-  dummy() {
+  loadData() {
     this.notesService.loadGist().subscribe({
       next: (res: HttpResponse<IGist[]>) => {
+        this.gistData = res.body as IGist[];
         this.notes = res.body?.map(gist => new Notes(gist.id, gist.url)) ?? [];
       },
       error: () => {
@@ -24,11 +26,19 @@ export class ListNotesComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-    this.dummy();
+  saveData(note: IGist) {
+    this.gistData?.forEach(element => {
+      if (element.id === note.id) {
+        this.notesService.selectedGistData = element;
+      }
+    });
   }
 
+  ngOnInit(): void {
+    this.loadData();
+  }
 }
+
 
 
 
