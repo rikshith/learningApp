@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { ListNotesComponent } from './notes/list-notes/list-notes.component';
 import { NotesRoutingModule } from './notes/notes-routing.module';
 
 const routes: Routes = [
   {
-    path: '', loadChildren: () => import('./notes/list-notes/list-notes.component').then(m => m.ListNotesComponent)
+    path: '', component: ListNotesComponent
   },
   {
     path: 'notes', loadChildren: () => import('./notes/notes.module').then(m => m.NotesModule)
